@@ -7,6 +7,9 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Marketplace from "./pages/Marketplace";
 import SubmitIdea from "./pages/SubmitIdea";
+import Packs from "./pages/Packs";
+import Generator from "./pages/Generator";
+import Success from "./pages/Success";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +21,9 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/packs" element={<Packs />} />
+          <Route path="/generator" element={<Generator />} />
+          <Route path="/success" element={<Success />} />
           <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/submit-idea" element={<SubmitIdea />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

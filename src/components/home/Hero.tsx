@@ -20,17 +20,17 @@ const Hero = () => {
             <span className="bg-gradient-to-r from-[hsl(var(--brand))] to-[hsl(var(--brand-2))] bg-clip-text text-transparent">
               EcoForge
             </span>
-            <span className="block">Turn ideas into AI-crafted blueprints.</span>
+            <span className="block">Launch eco micro-businesses with ready-to-use blueprint packs.</span>
           </h1>
           <p className="mt-4 md:mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl">
             Submit your invention concepts, generate detailed technical plans, and license innovations in a community-driven marketplace.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button variant="hero" size="lg" asChild>
-              <Link to="/submit-idea">Submit an Idea</Link>
+              <Link to="/packs">Get Blueprint Packs</Link>
             </Button>
             <Button variant="secondary" size="lg" asChild>
-              <Link to="/marketplace">Explore Marketplace</Link>
+              <Link to="/generator">Free AI Brief Generator</Link>
             </Button>
           </div>
         </div>

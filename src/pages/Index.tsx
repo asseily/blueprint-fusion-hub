@@ -6,7 +6,9 @@ import packagingImg from "@/assets/product-packaging.jpg";
 import learningImg from "@/assets/product-learning.jpg";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const Index = () => {
   return (
@@ -50,8 +52,35 @@ const Index = () => {
           </div>
           <div className="text-center mt-10">
             <Button variant="secondary" asChild>
-              <Link to="/marketplace">Browse the Marketplace</Link>
+              <Link to="/packs">Browse Blueprint Packs</Link>
             </Button>
+          </div>
+        </section>
+        <section className="container pb-16">
+          <div className="max-w-2xl mx-auto">
+            <div className="rounded-xl border bg-card p-6">
+              <h3 className="text-xl font-semibold">Get 1 free blueprint brief each week</h3>
+              <p className="text-muted-foreground mt-1">Join the newsletter for templates, suppliers, and micro-business ideas.</p>
+              <form
+                className="mt-4"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const input = (e.currentTarget.querySelector('input[name="email"]') as HTMLInputElement | null);
+                  const email = input?.value.trim();
+                  if (!email) {
+                    toast("Please enter your email.");
+                    return;
+                  }
+                  toast("Subscribed! You'll receive your first brief soon.");
+                  if (input) input.value = "";
+                }}
+              >
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Input type="email" name="email" placeholder="you@company.com" />
+                  <Button type="submit" variant="hero">Subscribe</Button>
+                </div>
+              </form>
+            </div>
           </div>
         </section>
       </main>
