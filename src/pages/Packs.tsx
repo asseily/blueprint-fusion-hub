@@ -20,7 +20,7 @@ const items = [
     price: "$2,999.99",
     img: packagingImg,
     desc: "Compostable, fiber-based packaging with optimized durability.",
-    paymentLink: "", // TODO: Paste your payment link
+    paymentLink: "https://buy.stripe.com/28EdR218G70j5OE6EefnO01",
   },
   {
     title: "AI-Powered Learning Assistant",
