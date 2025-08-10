@@ -6,12 +6,12 @@ import { Link } from "react-router-dom";
 const Success = () => {
   return (
     <div className="min-h-screen bg-background">
-      <SEO title="Payment Successful – EcoForge" description="Your purchase was successful." canonicalPath="/success" />
+      <SEO title="Success – EcoForge" description="Thanks! If you bought a pack, check your email. If you submitted an idea, we’ll be in touch soon." canonicalPath="/success" />
       <Navbar />
       <main className="container py-12">
         <header className="mb-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Payment Successful</h1>
-          <p className="text-muted-foreground mt-2">You’ll receive an email with your pack shortly.</p>
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Success</h1>
+          <p className="text-muted-foreground mt-2">If you purchased a pack, you’ll receive an email with access shortly. If you submitted an idea, we’ll review it and follow up soon.</p>
         </header>
         <div className="flex justify-center gap-3">
           <Button asChild>

@@ -53,9 +53,12 @@ const Packs = () => {
                 <div className="flex items-center justify-between">
                   <span className="font-semibold">{p.price}</span>
                   {p.paymentLink ? (
-                    <Button asChild>
-                      <a href={p.paymentLink} target="_blank" rel="noopener noreferrer">Buy Now</a>
-                    </Button>
+                    <div className="text-right">
+                      <Button asChild>
+                        <a href={p.paymentLink} target="_blank" rel="noopener noreferrer">Buy Now</a>
+                      </Button>
+                      <p className="text-xs text-muted-foreground mt-1">Secure checkout on Stripe</p>
+                    </div>
                   ) : (
                     <Button onClick={() => toast("Payment link coming soon. Contact sales@ecoforge.app")}>Coming Soon</Button>
                   )}
