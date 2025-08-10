@@ -12,23 +12,48 @@ import { toast } from "sonner";
 import { useSearchParams } from "react-router-dom";
 
 const categories = ["Agriculture", "Healthcare", "Energy", "Education", "Manufacturing", "Other"];
-const IDEA_PAYMENT_LINK = ""; // TODO: Paste your Stripe Payment Link for idea submission
+const IDEA_PAYMENT_LINK = ""; // TODO: Paste your Stripe Payment Link for idea submission (redirect to /submit-idea?paid=1)
+const IDEA_SUBMIT_ENDPOINT = ""; // TODO: Paste your Formspree (or similar) endpoint to collect ideas
 const SubmitIdea = () => {
   const [searchParams] = useSearchParams();
   const isPaid = searchParams.get("paid") === "1";
   const [title, setTitle] = useState("");
+  const [email, setEmail] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
-  const onSubmit = (e: React.FormEvent) => {
+  const [submitting, setSubmitting] = useState(false);
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !category || !description) {
+    if (IDEA_PAYMENT_LINK && !isPaid) {
+      toast("Please complete the submission fee first.");
+      return;
+    }
+    if (!title || !email || !category || !description) {
       toast("Please fill in all fields.");
       return;
     }
-    toast("Thanks! AI blueprint generation is coming soon.");
-    setTitle("");
-    setCategory("");
-    setDescription("");
+    try {
+      setSubmitting(true);
+      if (IDEA_SUBMIT_ENDPOINT) {
+        const res = await fetch(IDEA_SUBMIT_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title, email, category, description, paid: isPaid ? 1 : 0, submittedAt: new Date().toISOString() }),
+        });
+        if (!res.ok) throw new Error("Submission failed");
+        toast("Thanks! Your idea was submitted. We’ll be in touch.");
+      } else {
+        toast("Submission endpoint not configured. Please add IDEA_SUBMIT_ENDPOINT.");
+      }
+      setTitle("");
+      setEmail("");
+      setCategory("");
+      setDescription("");
+    } catch (err) {
+      toast("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -42,13 +67,27 @@ const SubmitIdea = () => {
         </header>
 
         <div className="max-w-2xl mx-auto space-y-4">
-          {(!isPaid || !IDEA_PAYMENT_LINK) && (
+          {IDEA_PAYMENT_LINK && !isPaid ? (
+            <Alert>
+              <AlertTitle>Submission fee required</AlertTitle>
+              <AlertDescription>
+                Please complete the submission fee before sending your idea. Your payment secures priority review.
+              </AlertDescription>
+            </Alert>
+          ) : (
             <Alert>
               <AlertTitle>Launch promo: submission fee waived</AlertTitle>
               <AlertDescription>
                 Submit your idea for free while we finalize payments. You’ll still get an AI blueprint preview.
               </AlertDescription>
             </Alert>
+          )}
+          {IDEA_PAYMENT_LINK && !isPaid && (
+            <div className="text-right">
+              <Button asChild>
+                <a href={IDEA_PAYMENT_LINK} target="_blank" rel="noopener noreferrer">Pay submission fee</a>
+              </Button>
+            </div>
           )}
 
           <Card>
@@ -60,6 +99,10 @@ const SubmitIdea = () => {
                 <div className="space-y-2">
                   <Label htmlFor="title">Title</Label>
                   <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g., Smart Urban Garden System" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Contact Email</Label>
+                  <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" />
                 </div>
                 <div className="space-y-2">
                   <Label>Category</Label>
@@ -79,8 +122,12 @@ const SubmitIdea = () => {
                   <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} rows={6} placeholder="Describe your idea, goals, and constraints..." />
                 </div>
                 <div className="flex justify-between items-center">
-                  <p className="text-sm text-muted-foreground">No payment required during launch.</p>
-                  <Button variant="hero" type="submit">Generate Blueprint</Button>
+                  <p className="text-sm text-muted-foreground">
+                    {IDEA_PAYMENT_LINK && !isPaid ? "Complete payment to enable submission." : "No payment required during launch."}
+                  </p>
+                  <Button variant="hero" type="submit" disabled={submitting || (!!IDEA_PAYMENT_LINK && !isPaid)}>
+                    {submitting ? "Submitting..." : "Submit Idea"}
+                  </Button>
                 </div>
               </form>
             </CardContent>
