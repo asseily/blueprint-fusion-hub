@@ -2,6 +2,7 @@ import Navbar from "@/components/layout/Navbar";
 import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -40,68 +41,50 @@ const SubmitIdea = () => {
           <p className="text-muted-foreground mt-2">Describe your concept and we'll help transform it into a blueprint</p>
         </header>
 
-        <div className="max-w-2xl mx-auto">
-          {!isPaid ? (
-            <Card>
-              <CardHeader>
-                <CardTitle>Unlock Idea Submission</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-muted-foreground">
-                  Pay a one-time fee to unlock the form. After payment, you will be redirected back here automatically.
-                </p>
-                <div className="flex justify-end">
-                  <Button
-                    variant="hero"
-                    type="button"
-                    onClick={() => {
-                      if (!IDEA_PAYMENT_LINK) {
-                        toast("Payment link not configured. Please add your Stripe Payment Link.");
-                        return;
-                      }
-                      window.open(IDEA_PAYMENT_LINK, "_blank");
-                    }}
-                  >
-                    Proceed to Payment
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ) : (
-            <Card>
-              <CardHeader>
-                <CardTitle>Idea Details</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={onSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="title">Title</Label>
-                    <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g., Smart Urban Garden System" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Category</Label>
-                    <Select value={category} onValueChange={setCategory}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {categories.map((c) => (
-                          <SelectItem key={c} value={c}>{c}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="description">Description</Label>
-                    <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} rows={6} placeholder="Describe your idea, goals, and constraints..." />
-                  </div>
-                  <div className="flex justify-end">
-                    <Button variant="hero" type="submit">Generate Blueprint</Button>
-                  </div>
-                </form>
-              </CardContent>
-            </Card>
+        <div className="max-w-2xl mx-auto space-y-4">
+          {(!isPaid || !IDEA_PAYMENT_LINK) && (
+            <Alert>
+              <AlertTitle>Launch promo: submission fee waived</AlertTitle>
+              <AlertDescription>
+                Submit your idea for free while we finalize payments. You’ll still get an AI blueprint preview.
+              </AlertDescription>
+            </Alert>
           )}
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Idea Details</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={onSubmit} className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="title">Title</Label>
+                  <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g., Smart Urban Garden System" />
+                </div>
+                <div className="space-y-2">
+                  <Label>Category</Label>
+                  <Select value={category} onValueChange={setCategory}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((c) => (
+                        <SelectItem key={c} value={c}>{c}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} rows={6} placeholder="Describe your idea, goals, and constraints..." />
+                </div>
+                <div className="flex justify-between items-center">
+                  <p className="text-sm text-muted-foreground">No payment required during launch.</p>
+                  <Button variant="hero" type="submit">Generate Blueprint</Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>
