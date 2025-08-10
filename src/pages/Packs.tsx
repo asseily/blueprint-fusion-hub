@@ -13,7 +13,7 @@ const items = [
     price: "$499.99",
     img: gardenImg,
     desc: "Automated indoor/outdoor vertical gardening with IoT monitoring.",
-    paymentLink: "https://buy.stripe.com/5kQ9AMaJg4Sb7WMbYyfnO03",
+    paymentLink: "",
   },
   {
     title: "Biodegradable Food Packaging",
@@ -57,7 +57,7 @@ const Packs = () => {
                       <a href={p.paymentLink} target="_blank" rel="noopener noreferrer">Buy Now</a>
                     </Button>
                   ) : (
-                    <Button onClick={() => toast("Payment link coming soon. Contact sales@ecoforge.app")}>Buy Now</Button>
+                    <Button onClick={() => toast("Payment link coming soon. Contact sales@ecoforge.app")}>Coming Soon</Button>
                   )}
                 </div>
               </CardContent>
