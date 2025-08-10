@@ -27,7 +27,7 @@ const items = [
     price: "$1,499.99",
     img: learningImg,
     desc: "Adaptive study assistant that personalizes learning pathways.",
-    paymentLink: "", // TODO: Paste your payment link
+    paymentLink: "https://buy.stripe.com/8x23cobNk5Wf5OE9QqfnO02",
   },
 ];
 
