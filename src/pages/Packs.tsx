@@ -13,7 +13,7 @@ const items = [
     price: "$499.99",
     img: gardenImg,
     desc: "Automated indoor/outdoor vertical gardening with IoT monitoring.",
-    paymentLink: "https://buy.stripe.com/fZu14g04C84n7WM0fQfnO00",
+    paymentLink: "https://buy.stripe.com/5kQ9AMaJg4Sb7WMbYyfnO03",
   },
   {
     title: "Biodegradable Food Packaging",
