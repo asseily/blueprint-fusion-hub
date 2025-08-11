@@ -37,10 +37,27 @@ const SubmitIdea = () => {
       if (IDEA_SUBMIT_ENDPOINT) {
         const res = await fetch(IDEA_SUBMIT_ENDPOINT, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ title, email, category, description, paid: isPaid ? 1 : 0, submittedAt: new Date().toISOString() }),
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            title,
+            email,
+            category,
+            description,
+            paid: isPaid ? 1 : 0,
+            submittedAt: new Date().toISOString(),
+          }),
         });
-        if (!res.ok) throw new Error("Submission failed");
+        if (!res.ok) {
+          let errMsg = `Submission failed (${res.status})`;
+          try {
+            const data = await res.json();
+            errMsg = data?.errors?.[0]?.message ?? data?.message ?? errMsg;
+          } catch {}
+          throw new Error(errMsg);
+        }
         toast("Thanks! Your idea was submitted. We’ll be in touch.");
       } else {
         toast("Submission endpoint not configured. Please add IDEA_SUBMIT_ENDPOINT.");
@@ -50,7 +67,8 @@ const SubmitIdea = () => {
       setCategory("");
       setDescription("");
     } catch (err) {
-      toast("Something went wrong. Please try again.");
+      const msg = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      toast(msg);
     } finally {
       setSubmitting(false);
     }
