@@ -1,1 +1,7 @@
 project_id = "wxqytgljytudlxgparyf"
+
+[functions.ef-capture-newsletter]
+verify_jwt = false
+
+[functions.ef-capture-idea]
+verify_jwt = false
